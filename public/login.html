@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <script>
+        async function submitCredentials(){
+            let creds = {username: document.getElementById('username').value, password: document.getElementById('password').value}
+
+
+            let resp = await fetch('/auth/cognito', {
+                method: 'POST',
+                cache: 'no-cache',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                redirect: 'follow',
+                referrer: 'no-referrer',
+                body: JSON.stringify(creds)
+            })
+
+            if(resp.redirected) {
+                window.location.href = resp.url
+            }
+        }
+    </script>
+</head>
+<header><h1>Login</h1></header>
+<form id="login-form" >
+    <p class="login-field">
+        <label for="username">Username: </label>
+        <input type="text" id="username"/>
+    </p>
+    <p class="login-field">
+        <label for="password">Password: </label>
+        <input type="password" id="password"/>
+    </p>
+    <p>
+        <input type="button" value="Login" onclick="submitCredentials()"/>
+    </p>
+</form>
+</html>

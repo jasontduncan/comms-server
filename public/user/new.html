@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <script>
+        function submitUserForm() {
+
+            let data = {}
+            data.username = document.getElementById('username').value
+            data.email = document.getElementById('email').value
+            data.alias = document.getElementById('alias').value
+
+            fetch('/user', {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then((resp) => {
+                    if(!resp.success) throw new Error(resp.text())
+                    else {
+                        alert("Success!"+ resp)
+                    }
+                })
+                .catch((e) => {
+                    alert(e)
+                })
+        }
+    </script>
+</head>
+<body>
+
+    <p>
+        <label for="username">Username*: </label>
+        <input id="username"/>
+    </p>
+    <p>
+        <label for="alias">Alias:</label>
+        <input id="alias"/>
+    </p>
+    <p>
+        <label for="email">Email*:</label>
+        <input id="email"/>
+    </p>
+    <p>
+        <button onclick="submitUserForm()">Create User</button>
+    </p>
+
+</body>
+</html>
